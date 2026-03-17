@@ -21,7 +21,7 @@ SecAuditEngine RelevantOnly
 SecAuditLogRelevantStatus "^(?:5|4(?!04))"
 SecAuditLogParts ABIJDEFHZ
 SecAuditLogType Serial
-SecAuditLog /var/log/modsecurity/audit.log
+SecAuditLog /var/log/modsecurity/audit/audit.log
 SecArgumentSeparator &
 SecCookieFormat 0
 SecUnicodeMapFile /etc/modsecurity.d/unicode.mapping 20127

@@ -16,7 +16,7 @@ map $http_upgrade $connection_upgrade {
         location / {
 
             # Rate limit
-            limit_req zone=req_limit_per_ip burst=30 nodelay;
+            limit_req zone=req_limit_per_ip burst=10 nodelay;
             limit_req_status 429;
 
             # Connection limit

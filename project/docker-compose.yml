@@ -1,4 +1,3 @@
-version: '3.8'
 
 services:
 
@@ -23,24 +22,17 @@ services:
       - BACKEND=http://owasp_juice_shop:3000
 
     volumes:
-    - ./waf/template/modsecurity.d/modsecurity.conf.template:/etc/nginx/templates/modsecurity.d/modsecurity.conf.template
-    
-    - ./waf/template/conf.d/modsecurity-nginx.conf.template:/etc/nginx/templates/conf.d/modsecurity.conf.template
-    
-    - ./waf/template/nginx.conf:/etc/nginx/templates/nginx.conf.template
-    
-    - ./waf/template/conf.d/default.conf.template:/etc/nginx/templates/conf.d/default.conf.template
+      - ./waf/template/modsecurity.d/modsecurity.conf.template:/etc/nginx/templates/modsecurity.d/modsecurity.conf.template
+      - ./waf/template/conf.d/modsecurity-nginx.conf.template:/etc/nginx/templates/conf.d/modsecurity.conf.template
+      - ./waf/template/nginx.conf:/etc/nginx/templates/nginx.conf.template
+      - ./waf/template/conf.d/default.conf.template:/etc/nginx/templates/conf.d/default.conf.template
 
-    - ./waf/audit/audit.log:/var/log/modsecurity/audit/audit.log
-    
-    - ./waf/audit/debug.log:/var/log/modsecurity/debug.log
-    
-    - ./waf/REQUEST-999-CUSTOM-XSS.conf:/etc/modsecurity.d/owasp-crs/rules/REQUEST-999-CUSTOM-XSS.conf
-    
-    - ./waf/rules:/etc/modsecurity.d/owasp-crs/rules
-    
-    - ./ssl:/etc/nginx/ssl:ro
+      - /home/kh4nh/project_fn/project/waf/audit:/var/log/modsecurity/audit
 
+      - ./waf/REQUEST-999-CUSTOM-XSS.conf:/etc/modsecurity.d/owasp-crs/rules/REQUEST-999-CUSTOM-XSS.conf
+      - ./waf/rules:/etc/modsecurity.d/owasp-crs/rules
+
+      - ./ssl:/etc/nginx/ssl:ro
     depends_on:
       - owasp_juice_shop
 
