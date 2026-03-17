@@ -1,0 +1,5 @@
+FROM bkimminich/juice-shop
+
+ENV NODE_ENV=development
+
+EXPOSE 3000

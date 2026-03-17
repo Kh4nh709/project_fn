@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+
+  owasp_juice_shop:
+    build:
+      context: ./owasp_juice_shop
+      dockerfile: Dockerfile
+    expose:
+      - "3000"
+    networks:
+      - app_network
+
+  waf:
+    build:
+      context: ./waf
+      dockerfile: Dockerfile
+    ports:
+      - "80:8080"
+      - "443:8443"
+
+    environment:
+      - BACKEND=http://owasp_juice_shop:3000
+
+    volumes:
+    - ./waf/template/modsecurity.d/modsecurity.conf.template:/etc/nginx/templates/modsecurity.d/modsecurity.conf.template
+    
+    - ./waf/template/conf.d/modsecurity-nginx.conf.template:/etc/nginx/templates/conf.d/modsecurity.conf.template
+    
+    - ./waf/template/nginx.conf:/etc/nginx/templates/nginx.conf.template
+    
+    - ./waf/template/conf.d/default.conf.template:/etc/nginx/templates/conf.d/default.conf.template
+
+    - ./waf/audit/audit.log:/var/log/modsecurity/audit/audit.log
+    
+    - ./waf/audit/debug.log:/var/log/modsecurity/debug.log
+    
+    - ./waf/REQUEST-999-CUSTOM-XSS.conf:/etc/modsecurity.d/owasp-crs/rules/REQUEST-999-CUSTOM-XSS.conf
+    
+    - ./waf/rules:/etc/modsecurity.d/owasp-crs/rules
+    
+    - ./ssl:/etc/nginx/ssl:ro
+
+    depends_on:
+      - owasp_juice_shop
+
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
