@@ -16,6 +16,7 @@ COPY template/conf.d/modsecurity-nginx.conf.template /etc/nginx/templates/conf.d
 
 COPY template/nginx.conf /etc/nginx/templates/nginx.conf.template
 
-COPY REQUEST-999-CUSTOM-XSS.conf /etc/modsecurity.d/owasp-crs/rules/REQUEST-999-CUSTOM-XSS.conf
+COPY ./rules /etc/modsecurity.d/owasp-crs/rules/
+#COPY REQUEST-999-CUSTOM-XSS.conf /etc/modsecurity.d/owasp-crs/rules/REQUEST-999-CUSTOM-XSS.conf
 
 COPY template/conf.d/default.conf.template /etc/nginx/templates/conf.d/default.conf.template

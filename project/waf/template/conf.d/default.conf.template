@@ -10,13 +10,41 @@ map $http_upgrade $connection_upgrade {
         listen 8443 ssl;
         server_name localhost;
 
+        #1. Đường dẫn đến chứng chỉ
         ssl_certificate /etc/nginx/conf/server.crt;
         ssl_certificate_key /etc/nginx/conf/server.key;
 
+        # 2. Chỉ cho phép TLS1.2 và TLS1.3
+        ssl_protocols TLSv1.2 TLSv1.3;
+        ssl_prefer_server_ciphers on;
+
+        # 3. Sử dụng các bộ mã hóa (Cipher suites) mạnh mẽ và hiện đại an toàn nhất
+        ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384;
+
+        # 4. Tăng cường trao đổi khóa bằng Diffie-Hellman Parameter
+        ssl_dhparam /etc/nginx/ssl/dhparam.pem;
+
+        # 5. Bộ nhớ đệm SSL (Tăng tốc độ kết nối của Client)
+        ssl_session_timeout 1d;
+        ssl_session_cache shared:SSL:10m;
+        ssl_session_tickets off;
+    
+        # 6. Cấu hình OCSP Stapling (Xác minh chứng chỉ không bị thu hồi nhanh hơn)
+        ssl_stapling on;
+        ssl_stapling_verify on;
+        # ssl_trusted_certificate /etc/nginx/ssl/ca-certs.pem; # (Bỏ comment nếu có Chain Auth)
+        
+        # 7. Cấu hình các Header Bảo mật thiết yếu (HSTS để chặn hạ cấp SSL rớt về HTTP)
+        add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
+        add_header X-Frame-Options DENY always;
+        add_header X-Content-Type-Options nosniff always;
+        add_header X-XSS-Protection "1; mode=block" always; 
+
+        # 8. Cấu hình chuyển hướng backend và WAF
         location / {
 
             # Rate limit
-            limit_req zone=req_limit_per_ip burst=10 nodelay;
+            limit_req zone=req_limit_per_ip burst=30 nodelay;
             limit_req_status 429;
 
             # Connection limit
