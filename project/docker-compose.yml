@@ -28,7 +28,7 @@ services:
       - ./waf/template/nginx.conf:/etc/nginx/templates/nginx.conf.template
       - ./waf/template/conf.d/default.conf.template:/etc/nginx/templates/conf.d/default.conf.template
 
-      - /home/kh4nh/project_fn/project/waf/audit:/var/log/modsecurity/audit
+      - ./waf/audit/audit.log:/var/log/modsecurity/audit/audit.log
 
       - ./waf/REQUEST-999-CUSTOM-XSS.conf:/etc/modsecurity.d/owasp-crs/rules/REQUEST-999-CUSTOM-XSS.conf
       - ./waf/rules:/etc/modsecurity.d/owasp-crs/rules

@@ -3,9 +3,11 @@ FROM owasp/modsecurity-crs:nginx
 USER root
 
 RUN mkdir -p /var/log/modsecurity/audit 
+RUN touch /var/log/modsecurity/audit/audit.log
 RUN touch /var/log/modsecurity/debug.log 
 RUN chmod -R 777 /var/log/modsecurity
 RUN touch /etc/modsecurity.d/owasp-crs/rules/REQUEST-999-CUSTOM-XSS.conf
+ 
 
 USER nginx
 # copy modsecurity config
