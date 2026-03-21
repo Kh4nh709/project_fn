@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
 
   owasp_juice_shop:
