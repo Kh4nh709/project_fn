@@ -2,7 +2,7 @@
 # https://github.com/owasp-modsecurity/ModSecurity/blob/v3/master/modsecurity.conf-recommended
 
 # Directives configured upstream (in the same order)
-SecRuleEngine on
+SecRuleEngine on 
 SecRequestBodyAccess on
 SecRequestBodyLimit 13107200
 SecRequestBodyNoFilesLimit 131072
@@ -71,6 +71,9 @@ SecRule TX:/^MSC_/ "!@streq 0" \
 # Additional rules
 SecRule REQUEST_HEADERS:Content-Type "^application/[a-z0-9.-]+[+]json" \
     "id:'200006',phase:1,t:none,t:lowercase,pass,nolog,ctl:requestBodyProcessor=JSON"
+
+# load Rule custom
+Include /etc/modsecurity.d/owasp-crs/custom-rule/*.conf
 
 # load OWASP CRS
 Include /etc/modsecurity.d/owasp-crs/crs-setup.conf

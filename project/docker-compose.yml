@@ -32,6 +32,7 @@ services:
 
       - ./waf/REQUEST-999-CUSTOM-XSS.conf:/etc/modsecurity.d/owasp-crs/rules/REQUEST-999-CUSTOM-XSS.conf
       - ./waf/rules:/etc/modsecurity.d/owasp-crs/rules
+      - ./waf/custom-rule:/etc/modsecurity.d/owasp-crs/custom-rule
 
       - ./ssl:/etc/nginx/ssl:ro
     depends_on:
