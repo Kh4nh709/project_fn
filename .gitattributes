@@ -1,2 +1,35 @@
-# Auto detect text files and perform LF normalization
+# Git line ending configuration
+# Ensures shell scripts and Linux config files always use LF
+
+# Default: auto-detect
 * text=auto
+
+# Shell scripts → always LF (required for Linux/Docker)
+*.sh text eol=lf
+
+# Nginx / ModSecurity config files → always LF
+*.conf text eol=lf
+
+# Docker-related files → LF
+Dockerfile text eol=lf
+dockerfile text eol=lf
+*.template text eol=lf
+
+# YAML / JSON → LF
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+
+# Windows-specific files → CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Binary files → no conversion
+*.png binary
+*.jpg binary
+*.gif binary
+*.ico binary
+*.zip binary
+*.gz binary
+*.tar binary
