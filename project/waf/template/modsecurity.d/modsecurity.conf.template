@@ -30,7 +30,7 @@ SecStatusEngine Off
 # Additional directives
 SecAuditLogFormat JSON
 SecAuditLogStorageDir /var/log/modsecurity/audit/
-SecAuditLog /var/log/modsecurity/audit/audit.log
+#SecAuditLog /var/log/modsecurity/audit/audit.log
 SecDebugLog /var/log/modsecurity/debug.log
 SecDebugLogLevel 0
 SecDisableBackendCompression Off
